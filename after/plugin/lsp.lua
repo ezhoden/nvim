@@ -2,6 +2,7 @@ local lsp = require("lsp-zero")
 
 lsp.preset("recommended")
 
+-- tsserver conflicts with angularls on rename so i removed it
 lsp.ensure_installed({
   'angularls',
   'cssls',
@@ -12,7 +13,6 @@ lsp.ensure_installed({
   'golangci_lint_ls',
   'html',
   'jsonls',
-  'tsserver',
   'sumneko_lua',
 })
 
@@ -25,6 +25,20 @@ lsp.configure('sumneko_lua', {
       }
     }
   }
+})
+
+require('lspconfig').jsonls.setup {
+  settings = {
+    json = {
+      schemas = require('schemastore').json.schemas(),
+      validate = { enable = true },
+    },
+  },
+}
+
+require('lspconfig').angularls.setup({
+    on_attach = function(client)
+    end,
 })
 
 local cmp = require('cmp')
@@ -56,10 +70,13 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
   vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
   vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
-  vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
+  vim.keymap.set("n", "<leader>ac", function() vim.lsp.buf.code_action() end, opts)
   vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
   vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+
+  -- quickfix is not working for typescript currently
+  vim.keymap.set('n', '<leader>qf', function() vim.lsp.buf.code_action({only={"quickfix"}}) end, { noremap = true, silent = true })
 end)
 
 lsp.setup()
