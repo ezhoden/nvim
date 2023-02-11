@@ -3,6 +3,6 @@ vim.keymap.set('n', '<leader>fp', builtin.find_files, {})
 vim.keymap.set('n', '<leader>gu', builtin.lsp_references, {})
 vim.keymap.set('n', '<C-p>', builtin.git_files, {})
 vim.keymap.set('n', '<leader>st', function()
-	-- it requires ripgrep (brew install ripgrep)
-	builtin.grep_string({ search = vim.fn.input("Grep > ") });
+  -- it requires ripgrep (brew install ripgrep)
+  builtin.grep_string({ search = vim.fn.input("Grep > ") });
 end)
