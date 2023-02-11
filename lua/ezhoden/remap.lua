@@ -1,6 +1,12 @@
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>qw", vim.cmd.Ex)
 
+-- colemak-dh arrows remap
+vim.keymap.set("n", "l", "j")
+vim.keymap.set("n", "h", "l")
+vim.keymap.set("n", "j", "k")
+vim.keymap.set("n", "k", "h")
+
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
