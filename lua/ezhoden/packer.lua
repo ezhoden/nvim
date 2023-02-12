@@ -18,7 +18,8 @@ return require('packer').startup(function(use)
       use('tpope/vim-fugitive')
       use('tpope/vim-rhubarb')
       use('lewis6991/gitsigns.nvim')
-      use "b0o/schemastore.nvim"
+      use 'b0o/schemastore.nvim'
+      use 'briemens/leetcode.vim'
       use {
           'VonHeikemen/lsp-zero.nvim',
           requires = {
