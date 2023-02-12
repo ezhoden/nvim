@@ -2,63 +2,46 @@ local lsp = require("lsp-zero")
 
 lsp.preset("recommended")
 
--- tsserver conflicts with angularls on rename so i removed it
+-- tsserver and html conflicts with angularls on rename so i removed it
 lsp.ensure_installed({
-  'angularls',
-  'cssls',
-  'cssmodules_ls',
-  'emmet_ls',
-  'eslint',
-  'gopls',
-  'golangci_lint_ls',
-  'html',
-  'jsonls',
-  'sumneko_lua',
-})
-
--- Fix Undefined global 'vim'
-lsp.configure('sumneko_lua', {
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { 'vim' }
-      }
-    }
-  }
+    'angularls',
+    'cssls',
+    'cssmodules_ls',
+    'emmet_ls',
+    'eslint',
+    'gopls',
+    'golangci_lint_ls',
+    'jsonls',
+    'lua_ls',
 })
 
 require('lspconfig').jsonls.setup {
-  settings = {
-    json = {
-      schemas = require('schemastore').json.schemas(),
-      validate = { enable = true },
+    settings = {
+        json = {
+            schemas = require('schemastore').json.schemas(),
+            validate = { enable = true },
+        },
     },
-  },
 }
-
-require('lspconfig').angularls.setup({
-    on_attach = function(client)
-    end,
-})
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 local cmp_mappings = lsp.defaults.cmp_mappings({
-  ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-  ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-  ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-  ["<C-Space>"] = cmp.mapping.complete(),
-})
+        ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+        ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+        ["<C-Space>"] = cmp.mapping.complete(),
+    })
 
 lsp.set_preferences({
-  sign_icons = {}
+    sign_icons = {}
 })
 
 cmp_mappings['<Tab>'] = nil
 cmp_mappings['<S-Tab>'] = nil
 
 lsp.setup_nvim_cmp({
-  mapping = cmp_mappings
+    mapping = cmp_mappings
 })
 
 lsp.on_attach(function(client, bufnr)
@@ -76,16 +59,17 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 
   -- quickfix is not working for typescript currently
-  vim.keymap.set('n', '<leader>qf', function() vim.lsp.buf.code_action({only={"quickfix"}}) end, { noremap = true, silent = true })
+  vim.keymap.set('n', '<leader>qf', function() vim.lsp.buf.code_action({ only = { "quickfix" } }) end,
+      { noremap = true, silent = true })
 end)
 
 lsp.setup()
 
 vim.diagnostic.config({
-  underline = true,
-  virtual_text = true,
-  signs = true,
-  update_in_insert = true,
+    underline = true,
+    virtual_text = true,
+    signs = true,
+    update_in_insert = true,
 })
 -- floating diagnostic window for current line
 vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false, scope="line"})]]
