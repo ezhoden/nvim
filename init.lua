@@ -413,8 +413,6 @@ require('nvim-treesitter.configs').setup {
 
 -- git-fugitive binding
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
-vim.keymap.set("n", "<leader>gb", vim.cmd.Gblame)
-vim.keymap.set("n", "<leader>gb", vim.cmd.Gfetch)
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
