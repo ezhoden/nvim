@@ -432,6 +432,10 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
+-- yank or delete all lines bindings
+vim.keymap.set('n', '<leader>ya', ':%y<CR>')
+vim.keymap.set('n', '<leader>da', ':%d<CR>')
+
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -484,17 +488,25 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-  angularls = {},
+  angularls = {
+    angularls = {
+      filetypes = { 'html', 'typescript', 'scss' },
+    }
+  },
   eslint = {},
   jsonls = {},
   rust_analyzer = {},
-  -- It conflicts with angularls
-  tsserver = {},
+  tsserver = {
+    tsserver = {
+      -- filetypes without typescript because it conplicts with with angularls
+      filetypes = { 'javascript', 'javascript.jsx', 'javascriptreact', 'typescript.tsx', 'typescriptreact' },
+    }
+  },
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
-    },
+    }
   },
 }
 
