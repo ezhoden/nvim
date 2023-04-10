@@ -195,7 +195,7 @@ require('lazy').setup({
   },
 
   {
-  "jackMort/ChatGPT.nvim",
+    "jackMort/ChatGPT.nvim",
     event = "VeryLazy",
     config = function()
       require("chatgpt").setup()
@@ -425,6 +425,12 @@ require('nvim-treesitter.configs').setup {
 
 -- git-fugitive binding
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
+
+-- gitsigns setup and hotkeys
+require('gitsigns').setup({
+  current_line_blame = true
+})
+vim.keymap.set("n", "<leader>ph", ':Gitsigns preview_hunk_inline<CR>')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
