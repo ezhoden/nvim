@@ -186,16 +186,8 @@ require('lazy').setup({
     end,
   },
 
-  -- Copilot with cmp support
-  {
-    'zbirenbaum/copilot-cmp',
-    dependencies = {
-      'zbirenbaum/copilot.lua',
-    },
-    config = function()
-      require("copilot_cmp").setup()
-    end,
-  },
+  -- Copilot
+  'zbirenbaum/copilot.lua',
 
   {
     "jackMort/ChatGPT.nvim",
@@ -362,6 +354,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
+require 'nvim-treesitter.install'.compilers = { 'clang' }
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'css', 'html', 'lua', 'rust', 'typescript', 'vim' },
@@ -547,10 +540,10 @@ mason_lspconfig.setup_handlers {
 }
 
 -- Copilot setup
--- disable suggestions and panel from copilot itself, because we want to use it with nvim-cmp
 require("copilot").setup({
-  suggestion = { enabled = false },
-  panel = { enabled = false },
+  suggestion = {
+    auto_trigger = true,
+  },
 })
 
 -- nvim-cmp setup
@@ -594,7 +587,6 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'copilot', keyword_pattern = "." },
     { name = 'luasnip' },
   },
 }
