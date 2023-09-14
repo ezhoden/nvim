@@ -75,6 +75,9 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
+  -- Surround text objects with quotes, brackets, etc
+  'tpope/vim-surround',
+
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -200,6 +203,35 @@ require('lazy').setup({
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim"
     }
+  },
+
+  -- Debugging with AI
+  {
+    "piersolenski/wtf.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+    opts = {},
+    keys = {
+      {
+        "gw",
+        mode = { "n", "x" },
+        function()
+          require("wtf").ai({
+            context = false
+          })
+        end,
+        desc = "Debug diagnostic with AI",
+      },
+      {
+        mode = { "n" },
+        "gW",
+        function()
+          require("wtf").search()
+        end,
+        desc = "Search diagnostic with Google",
+      },
+    },
   }
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
