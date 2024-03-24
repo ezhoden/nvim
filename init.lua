@@ -295,8 +295,8 @@ vim.keymap.set('n', '<leader>ww', vim.cmd.w, { desc = "[W]rite current file" })
 vim.keymap.set('n', '<leader>wa', vim.cmd.wa, { desc = "[W]rite [A]ll" })
 
 -- Yank to system clipboard
-vim.keymap.set({ 'n', 'v' }, '<leader>y', '"*y', { desc = "Yank selected to clipboard" })
-vim.keymap.set({ 'n', 'v' }, '<leader>yy', '"*y', { desc = "Yank line to clipboard" })
+vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { desc = "Yank selected to clipboard" })
+vim.keymap.set({ 'n', 'v' }, '<leader>yy', '"+y', { desc = "Yank line to clipboard" })
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -342,6 +342,31 @@ require('telescope').setup {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
       },
+    },
+    preview = {
+      mime_hook = function(filepath, bufnr, opts)
+        local is_image = function(filepath)
+          local image_extensions = {'png','jpg'}   -- Supported image formats
+          local split_path = vim.split(filepath:lower(), '.', {plain=true})
+          local extension = split_path[#split_path]
+          return vim.tbl_contains(image_extensions, extension)
+        end
+        if is_image(filepath) then
+          local term = vim.api.nvim_open_term(bufnr, {})
+          local function send_output(_, data, _ )
+            for _, d in ipairs(data) do
+              vim.api.nvim_chan_send(term, d..'\r\n')
+            end
+          end
+          vim.fn.jobstart(
+            {
+              'chafa', filepath  -- Terminal image viewer command
+            }, 
+            {on_stdout=send_output, stdout_buffered=true, pty=true})
+        else
+          require("telescope.previewers.utils").set_preview_message(bufnr, opts.winid, "Binary cannot be previewed")
+        end
+      end
     },
   },
   extensions = {
