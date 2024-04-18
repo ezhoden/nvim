@@ -145,6 +145,13 @@ require('lazy').setup({
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim',         opts = {} },
 
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
+
   -- Fuzzy Finder (files, lsp, etc)
   { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
   'nvim-lua/popup.nvim',
@@ -288,7 +295,7 @@ vim.o.termguicolors = true
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Explorer keymap
-vim.keymap.set('n', '<leader>qw', vim.cmd.Ex, { desc = "Open explorer" })
+vim.keymap.set("n", "<leader>qw", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- Save keymaps
 vim.keymap.set('n', '<leader>ww', vim.cmd.w, { desc = "[W]rite current file" })
