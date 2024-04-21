@@ -246,6 +246,11 @@ require('lazy').setup({
   -- { import = 'custom.plugins' },
 }, {})
 
+require('onedark').setup  {
+    transparent = true
+}
+require('onedark').load()
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
