@@ -117,28 +117,9 @@ require('lazy').setup({
     },
   },
 
-  {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'onedark'
-    end,
-  },
+  'navarasu/onedark.nvim',
 
-  {
-    -- Set lualine as statusline
-    'nvim-lualine/lualine.nvim',
-    -- See `:help lualine.txt`
-    opts = {
-      options = {
-        icons_enabled = false,
-        theme = 'onedark',
-        component_separators = '|',
-        section_separators = '',
-      },
-    },
-  },
+  'nvim-lualine/lualine.nvim',
 
   { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 
@@ -148,7 +129,6 @@ require('lazy').setup({
   {
     'stevearc/oil.nvim',
     opts = {},
-    -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
 
@@ -246,10 +226,28 @@ require('lazy').setup({
   -- { import = 'custom.plugins' },
 }, {})
 
-require('onedark').setup  {
-    transparent = true
-}
+require('onedark').setup({
+  transparent = true,
+  lualine = {
+    transparent = true,
+  },
+})
+
 require('onedark').load()
+
+local custom_lualine_theme = require('lualine.themes.onedark')
+
+custom_lualine_theme.normal.b.bg = 'None'
+custom_lualine_theme.normal.c.bg = 'None'
+
+require('lualine').setup({
+  options = {
+    icons_enabled = true,
+    theme = custom_lualine_theme,
+    component_separators = '|',
+    section_separators = '',
+  }
+})
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
